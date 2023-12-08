@@ -4,7 +4,7 @@ const express = require("express");
 const { OpenAI } = require("openai");
 const cors = require("cors");
 const axios = require("axios");
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
 const app = express();
 
@@ -19,16 +19,16 @@ app.use(cors());
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-mongoose.connect(process.env.MONGOOSE, { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect(process.env.MONGOOSE, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const questionSchema = new mongoose.Schema({
-  topic: String,
-  question: String,
-  reply: String,
-  fileUrls: [String],
-});
+// const questionSchema = new mongoose.Schema({
+//   topic: String,
+//   question: String,
+//   reply: String,
+//   fileUrls: [String],
+// });
 
-const Question = mongoose.model('Question', questionSchema);
+// const Question = mongoose.model('Question', questionSchema);
 
 app.post("/chat-with-file", upload.single("file"), async (req, res) => {
   const { topic, filePath, message } = req.body;
@@ -48,14 +48,21 @@ app.post("/chat-with-file", upload.single("file"), async (req, res) => {
 
     const reply = chatCompletion.choices[0].message.content.trim();
 
-    const newQuestion = new Question({
+    // const newQuestion = new Question({
+    //   topic: topic,
+    //   question: `${message} ${fileContent}`,
+    //   reply: reply,
+    //   fileUrls: [],
+    // });
+
+    // await newQuestion.save();
+
+    const newQuestion = {
       topic: topic,
       question: `${message} ${fileContent}`,
       reply: reply,
       fileUrls: [],
-    });
-
-    await newQuestion.save();
+    };
 
     res.json({ reply });
   } catch (error) {
@@ -79,13 +86,19 @@ app.post("/chat", async (req, res) => {
 
     const reply = chatCompletion.choices[0].message.content.trim();
 
-    const newQuestion = new Question({
+    // const newQuestion = new Question({
+    //   topic: topic,
+    //   question: message,
+    //   reply: reply,
+    // });
+
+    // await newQuestion.save();
+
+    const newQuestion = {
       topic: topic,
       question: message,
       reply: reply,
-    });
-
-    await newQuestion.save();
+    };
 
     res.json({ reply });
   } catch (error) {
