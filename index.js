@@ -7,7 +7,6 @@ const axios = require("axios");
 const mongoose = require('mongoose');
 
 const app = express();
-const port = 7000;
 
 const configuration = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -95,6 +94,6 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Port is listening on ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Port is listening.`);
 });
