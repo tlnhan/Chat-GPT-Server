@@ -166,7 +166,6 @@ app.post("/chat-with-file", upload.single("file"), async (req, res) => {
       input_documents: reply,
       question,
     });
-    console.log({ resA });
     res.json({ result: resA });
 
     // const chatCompletion = await openai.chat.completions.create({
